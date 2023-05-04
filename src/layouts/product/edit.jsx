@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Select from 'react-select'
-import { add_product } from '../../services/user'
 
-export default function AddProduct(){
+export default function EditProduct(props){
 
     const data = {
-        'name': '',
-        'buy_price': '',
-        'sell_price': '',
-        'description': '',
-        'catogory_id': 1,
+        'name': props.val.name,
+        'buy_price': props.val.buy_price,
+        'sell_price': props.val.sell_price,
+        'description': props.val.description,
+        'catogory_id': props.val.catogory_id,
     }
+
+    useEffect(() => {
+      console.log(data)
+    })
 
     const options = [
         { value: 1, label: 'Đồ gỗ' },
@@ -20,24 +23,15 @@ export default function AddProduct(){
         data['catogory_id'] = selected.value
     }
 
-    const handleAdd = async (e) => {
-      e.preventDefault()
-      add_product(data).then(
-        (res) => {
-          if (res.data['message'] === 'success'){
-            window.location.href = "/"
-          }
-        }
-      ).catch((error) => console.log(error))
-    }
+    const filterOption = (value) => options.filter(e => e.value === value)
 
     return (
       <form style={{ height: 470, width: '96%', margin: 2 + "%"}}>
-        <h3>Add Product</h3>
+        <h3>Edit Product</h3>
 
         <div className="mb-3">
           <label>Category</label>
-          <Select options = {options} onChange={handleChange} />
+          <Select options = {options} onChange={handleChange} defaultValue={filterOption(data['catogory_id'])} />
         </div>
 
         <div className="mb-3">
@@ -45,8 +39,9 @@ export default function AddProduct(){
           <input
             type="text"
             className="form-control"
-            placeholder="Enter name"
+            placeholder="Enter email"
             onChange={(e) => {data['name'] = e.target.value}}
+            defaultValue={data['name']}
           />
         </div>
 
@@ -57,6 +52,7 @@ export default function AddProduct(){
             className="form-control"
             placeholder="Enter number"
             onChange={(e) => {data['buy_price'] = e.target.value}}
+            defaultValue={data['buy_price']}
           />
         </div>
 
@@ -67,6 +63,7 @@ export default function AddProduct(){
             className="form-control"
             placeholder="Enter number"
             onChange={(e) => {data['sell_price'] = e.target.value}}
+            defaultValue={data['sell_price']}
           />
         </div>
 
@@ -75,8 +72,9 @@ export default function AddProduct(){
           <input
             type="text"
             className="form-control"
-            placeholder="Enter content"
+            placeholder="Enter password"
             onChange={(e) => {data['description'] = e.target.value}}
+            defaultValue={data['description']}
           />
         </div>
 
@@ -84,7 +82,7 @@ export default function AddProduct(){
           <button 
             type="submit" 
             className="btn btn-primary"
-            onClick={handleAdd}
+            onClick={() => {}}
           >
             Submit
           </button>

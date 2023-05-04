@@ -7,11 +7,26 @@ import Login from './components/login'
 import SignUp from './components/signup'
 import Product from './layouts/product/dash'
 import Sell from './layouts/sell/sell'
+import AddProduct from './layouts/product/add'
+import AddReport from './layouts/report/add'
+import Setting from './layouts/user/setting'
+import { get_product } from './services/user'
+import EditProduct from './layouts/product/edit'
 
 function App() {
 
+  const [data, setData] = React.useState([])
+
   useEffect(() => {
-    //localStorage.clear()
+    async function fetch(){
+      await get_product().then(
+        (res) => {
+          setData(res.data["product"])
+          console.log(res.data["product"])
+        }
+      ).catch((error) => console.log(error))
+    }
+    fetch()
   }, [])
 
   return (
@@ -46,14 +61,14 @@ function App() {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className="nav-link" to={'/report'}>
+                      <Link className="nav-link" to={'/add-report'}>
                         Report
                       </Link>
                     </li>
                   </ul>
                   <div style={{display: "flex", marginLeft: 800 + "px", marginTop: 10 + "px"}}>
-                    <Link to={'/user'}>{localStorage.getItem("username")}</Link>
-                    <p style={{marginLeft: 20 +"px", cursor: "pointer"}} onClick={() => localStorage.clear()}>Logout</p>
+                    <Link to={'/setting'}>{localStorage.getItem("username")}</Link>
+                    <div style={{marginLeft: 20 +"px", cursor: "pointer"}} onClick={() => {localStorage.clear(); window.location.href = "/"}}>Logout</div>
                   </div>
                 </div>
               )
@@ -66,13 +81,22 @@ function App() {
             localStorage.getItem("username") ? (
               <div style={{backgroundColor: "white"}}>
                 <Routes>
-                  <Route exact path="/" element={localStorage.getItem("username") ? <Product />:<Login />} />
-                  <Route exact path="/sell" element={localStorage.getItem("username") ? <Sell />:<Login />} />
+                  <Route exact path="/" element={<Product />} />
+                  <Route exact path="/sell" element={<Sell />} />
+                  <Route exact path="/add-product" element={<AddProduct />} />
+                  <Route exact path="/add-report" element={<AddReport />} />
+                  <Route exact path="/setting" element={<Setting />} />
+                  {
+                    data ? (
+                      data.map(e => <Route exact path={"/edit-product/" + e.id}  element={<EditProduct val={e} />} />)
+                    ):null
+                  }
                 </Routes>
               </div>
             ):(
               <div className="auth-inner">
                 <Routes>
+                  <Route path="/" element={<Login />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<SignUp />} />
                 </Routes>

@@ -24,6 +24,7 @@ const Table = ({ data, message, rowsPerPage }) => {
         var column1 = row.cells[0].innerText;
         var column2 = row.cells[1].innerText;
         var column3 = row.cells[2].innerText;
+        var column4 = row.cells[3].innerText;
   
     /* add a new records in the array */
         rows.push(
@@ -31,6 +32,7 @@ const Table = ({ data, message, rowsPerPage }) => {
                 column1,
                 column2,
                 column3,
+                column4
             ]
         );
   
@@ -54,9 +56,10 @@ const Table = ({ data, message, rowsPerPage }) => {
 
   return (
     <>
-      <button className={styles.productAdd}>Add Product</button>
       {
         message === "product" ? (
+          <>
+          <button className={styles.productAdd} onClick={() => window.location.href = "add-product"}>Add Product</button>
           <table id="tblStocks" className={styles.table}>
             <thead className={styles.tableRowHeader}>
               <tr>
@@ -75,23 +78,25 @@ const Table = ({ data, message, rowsPerPage }) => {
                   <td className={styles.tableCell}>{el.description}</td>
                   <td className={styles.tableCell}>{el.buy_price}</td>
                   <td className={styles.tableCell}>{el.sell_price}</td>
-                  <td className={styles.tableCell}><button className={styles.productDel}><EditIcon /></button></td>
+                  <td className={styles.tableCell}><button onClick={() => {window.location.href = "/edit-product/" + el.id}} className={styles.productDel}><EditIcon /></button></td>
                   <td className={styles.tableCell}><button className={styles.productDel}><DeleteIcon /></button></td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </>
         ):null
       }
       {
         message === "sell" ? (
+          <>
+          <button className={styles.productAdd}>Add Product</button>
           <table id="tblStocks" className={styles.table}>
             <thead className={styles.tableRowHeader}>
               <tr>
                 <th className={styles.tableHeader}>Name</th>
-                <th className={styles.tableHeader}>Description</th>
-                <th className={styles.tableHeader}>Buy price</th>
-                <th className={styles.tableHeader}>Sell price</th>
+                <th className={styles.tableHeader}>Count</th>
+                <th className={styles.tableHeader}>Date</th>
                 <th className={styles.tableHeader}></th>
                 <th className={styles.tableHeader}></th>
               </tr>
@@ -100,15 +105,15 @@ const Table = ({ data, message, rowsPerPage }) => {
               {slice.map((el) => (
                 <tr className={styles.tableRowItems} key={el.id}>
                   <td className={styles.tableCell}>{el.name}</td>
-                  <td className={styles.tableCell}>{el.description}</td>
-                  <td className={styles.tableCell}>{el.buy_price}</td>
-                  <td className={styles.tableCell}>{el.sell_price}</td>
+                  <td className={styles.tableCell}>{el.sell_count}</td>
+                  <td className={styles.tableCell}>{el.date}</td>
                   <td className={styles.tableCell}><button className={styles.productDel}><EditIcon /></button></td>
                   <td className={styles.tableCell}><button className={styles.productDel}><DeleteIcon /></button></td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </>
         ):null
       }
       <TableFooter range={range} slice={slice} setPage={setPage} page={page} />

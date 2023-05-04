@@ -22,9 +22,9 @@ export const add_product = (data) => axios.post("http://127.0.0.1:9001/api/produ
 export const edit_product = (data, id) => axios.put("http://127.0.0.1:9001/api/product/" + id, data)
 export const delete_product = (id) => axios.delete("http://127.0.0.1:9001/api/product/" + id)
 
-export const get_sell = () => axios.get("http://127.0.0.1:9001/api/sell")
-export const add_sell = (data) => axios.post("http://127.0.0.1:9001/api/sell", data)
-export const edit_sell = (data, id) => axios.put("http://127.0.0.1:9001/api/sell/" + id, data)
-export const delete_sell = (id) => axios.delete("http://127.0.0.1:9001/api/sell/" + id)
+export const get_sell = () => axios.get("http://127.0.0.1:9003/api/sell")
+export const add_sell = (data) => axios.post("http://127.0.0.1:9003/api/sell", data)
+export const edit_sell = (data, id) => axios.put("http://127.0.0.1:9003/api/sell/" + id, data)
+export const delete_sell = (id) => axios.delete("http://127.0.0.1:9003/api/sell/" + id)
 
-export const add_report = (data) => axios.post("http://127.0.0.1:9001/api/report", data)
+export const add_report = (data) => axios.post("http://127.0.0.1:9002/api/report", data)
